@@ -3,15 +3,23 @@ const path = require('path')
 exports.createPages = ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators
 
-  const blogPostTemplate = path.resolve(`src/templates/blogTemplate.js`)
+  const blogPostTemplate = path.resolve('src/templates/blogTemplate.js')
 
   return graphql(`
     {
-      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter__date] }) {
+      allMarkdownRemark(
+        sort: { order: DESC, fields: [frontmatter___date] }
+        limit: 1000
+      ) {
         edges {
           node {
+            excerpt(pruneLength: 250)
+            html
+            id
             frontmatter {
+              date
               path
+              title
             }
           }
         }
@@ -26,7 +34,7 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
       createPage({
         path: node.frontmatter.path,
         component: blogPostTemplate,
-        context: {} // additional data can be passed via context
+        context: {}
       })
     })
   })
