@@ -1,5 +1,6 @@
 backend:
   name: test-repo
+  repo: mchernin34/netlify-cms-gatsby
 
 media_folder: static/assets
 
